@@ -7,6 +7,7 @@ import os
 from tqdm import tqdm
 
 CLASSIFIER = None
+SPEECHBRAIN_MODEL_DIR = "./pretrained_models/speechbrain-spkrec"
 COSINE_DISTANCE_VALUES = []
 
 def parse_args():
@@ -35,7 +36,7 @@ def parse_args():
 def load_classifier():
   """Load the Speechbrain model."""
   global CLASSIFIER
-  CLASSIFIER = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb")
+  CLASSIFIER = EncoderClassifier.from_hparams(source=SPEECHBRAIN_MODEL_DIR, savedir=SPEECHBRAIN_MODEL_DIR)
   
 def compute_embedding(wav_path):
   signal, fs = torchaudio.load(wav_path)

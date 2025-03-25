@@ -1,5 +1,5 @@
-git+https://github.com/openai/whisper.git
-jiwer
 torch
-speechbrain
 torchaudio
+jiwer
+git+https://github.com/openai/whisper.git
+git+https://github.com/speechbrain/speechbrain.git

@@ -1,28 +1,27 @@
-# !git clone https://github.com/speechbrain/speechbrain.git
-# %cd /content/speechbrain
-# !pip install -r requirements.txt
-# !pip install --editable .
-# import speechbrain as sb
-# from speechbrain.pretrained import EncoderClassifier
-# classifier = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb") # speechbrain/spkrec-xvect-voxceleb, savedir="pretrained_models/spkrec-xvect-voxceleb"
-# %cd /content
+import whisper
+from speechbrain.pretrained import EncoderClassifier
+import os
 
-# !pip install git+https://github.com/openai/whisper.git
-# !pip install jiwer
+# Directory to save the models locally
+SAVE_DIR = "./pretrained_models"
+os.makedirs(SAVE_DIR, exist_ok=True)
 
-# import whisper
-# import jiwer
-# from jiwer import wer, cer
-# try:
-#     import tensorflow  # required in Colab to avoid protobuf compatibility issues
-# except ImportError:
-#     pass
+def download_whisper_model(model_name="large-v2"):
+    """Download and save the Whisper model locally."""
+    print(f"Downloading Whisper model: {model_name}")
+    model = whisper.load_model(model_name, download_root=SAVE_DIR)
+    print(f"Whisper model '{model_name}' saved locally at {SAVE_DIR}/whisper.")
 
-# def clear_gpu_cache():
-#     with torch.no_grad():
-#       torch.cuda.empty_cache()
-#     torch.cuda.empty_cache()
-#     gc.collect()
-#     model = None
+def download_speechbrain_model():
+    """Download and save the SpeechBrain speaker recognition model locally."""
+    print("Downloading SpeechBrain speaker recognition model...")
+    classifier = EncoderClassifier.from_hparams(
+        source="speechbrain/spkrec-ecapa-voxceleb",
+        savedir=f"{SAVE_DIR}/speechbrain-spkrec",
+    )
+    print(f"SpeechBrain model saved locally at {SAVE_DIR}/speechbrain-spkrec.")
 
-# model = whisper.load_model("large-v2")
+if __name__ == "__main__":
+    download_whisper_model("large-v2")
+    download_speechbrain_model()
+    print("All models downloaded and saved locally.")

@@ -13,6 +13,7 @@ import whisper
 WER_VALUES = []
 CER_VALUES = []
 WHISPER_MODEL = None
+WHISPER_MODEL_DIR = "./pretrained_models/whisper"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 def parse_args():
@@ -60,7 +61,7 @@ def load_whisper():
     clear_gpu_cache()
 
     global WHISPER_MODEL
-    WHISPER_MODEL = whisper.load_model("large-v2")
+    WHISPER_MODEL = whisper.load_model("large-v2", download_root=WHISPER_MODEL_DIR)
   
 def transcribe_audio(audio_file):
     """Generate transcriptions for the given audio file."""
