@@ -22,6 +22,6 @@ def download_speechbrain_model():
     print(f"SpeechBrain model saved locally at {SAVE_DIR}/speechbrain-spkrec.")
 
 if __name__ == "__main__":
-    download_whisper_model("large-v2")
+    download_whisper_model("large-v3")
     download_speechbrain_model()
     print("All models downloaded and saved locally.")

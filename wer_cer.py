@@ -61,7 +61,7 @@ def load_whisper():
     clear_gpu_cache()
 
     global WHISPER_MODEL
-    WHISPER_MODEL = whisper.load_model("large-v2", download_root=WHISPER_MODEL_DIR)
+    WHISPER_MODEL = whisper.load_model("large-v3", download_root=WHISPER_MODEL_DIR)
   
 def transcribe_audio(audio_file):
     """Generate transcriptions for the given audio file."""

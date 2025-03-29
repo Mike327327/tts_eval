@@ -1,5 +1,6 @@
 torch
 torchaudio
 jiwer
+soundfile
 git+https://github.com/openai/whisper.git
 git+https://github.com/speechbrain/speechbrain.git
