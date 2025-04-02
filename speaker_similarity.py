@@ -1,7 +1,7 @@
 import torchaudio
 import numpy as np
 import speechbrain as sb
-from speechbrain.pretrained import EncoderClassifier
+from speechbrain.inference import EncoderClassifier
 import argparse
 import os
 from tqdm import tqdm
@@ -9,6 +9,11 @@ from tqdm import tqdm
 CLASSIFIER = None
 SPEECHBRAIN_MODEL_DIR = "./pretrained_models/speechbrain-spkrec"
 COSINE_DISTANCE_VALUES = []
+
+# python speaker_similarity.py \
+# --generated_audio_folder "/path/to/generated/audio/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+# --reference_audio_file "/path/to/ref/texts/F5-TTS/audio_playground/cz/ref_seen_speaker.wav" \
+# --verbose
 
 def parse_args():
   parser = argparse.ArgumentParser(description="Evaluate WER and CER for generated audio using Whisper transcriptions.")
@@ -40,7 +45,7 @@ def print_verbose(text):
 def load_classifier():
   """Load the Speechbrain model."""
   global CLASSIFIER
-  CLASSIFIER = EncoderClassifier.from_hparams(source=SPEECHBRAIN_MODEL_DIR, savedir=SPEECHBRAIN_MODEL_DIR)
+  CLASSIFIER = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb", savedir=SPEECHBRAIN_MODEL_DIR)
   
 def compute_embedding(wav_path):
   signal, fs = torchaudio.load(wav_path)
@@ -69,7 +74,6 @@ def compute_cosine_distance(ref_wav_file, gen_wav_file):
 def process_input_files():
   """Process the input files."""
   experiment_names = [d for d in os.listdir(args.generated_audio_folder) if os.path.isdir(os.path.join(args.generated_audio_folder, d))]
-  gen_audio_files = os.listdir(args.generated_audio_folder)
 
   for experiment_name in experiment_names:
     print(f"Processing experiment: {experiment_name}")
@@ -80,15 +84,15 @@ def process_input_files():
     generated_audio_files = os.listdir(os.path.join(args.generated_audio_folder, experiment_name))  # list all files
     generated_audio_files = [f for f in generated_audio_files if f.endswith(".wav")]                # filter only .wav files
     
-    for gen_file in tqdm(gen_audio_files):
-      cos_distance = compute_cosine_distance(args.reference_audio_file, os.path.join(args.generated_audio_folder, gen_file))
+    for gen_file in tqdm(generated_audio_files):
+      cos_distance = compute_cosine_distance(args.reference_audio_file, os.path.join(args.generated_audio_folder, experiment_name, gen_file))
       COSINE_DISTANCE_VALUES.append(cos_distance)
       print_verbose(f"Cosine distance: {cos_distance:.2f}, file: {gen_file}")
 
     print(f"Mean cosine distance: {np.mean(COSINE_DISTANCE_VALUES):.2f} for experiment: {experiment_name}")
     
 if __name__ == "__main__":
-  args = parser.parse_args()
+  args = parse_args()
   
   load_classifier()
   
