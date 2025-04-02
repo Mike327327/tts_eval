@@ -17,12 +17,11 @@ WHISPER_MODEL_DIR = "./pretrained_models/whisper"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # python wer_cer.py \
-#     --generated_audio_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
-#     --reference_transcriptions_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/cz/to_generate" \
-#     --output_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
-#     --verbose \
-#     --plot_title "Czech non-causal unseen male speaker"
-
+# --generated_audio_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+# --reference_transcriptions_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/cz/to_generate" \
+# --output_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+# --verbose \
+# --plot_title "Czech non-causal unseen male speaker"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate WER and CER for generated audio using Whisper transcriptions.")
@@ -55,6 +54,14 @@ def parse_args():
         default="TTS Evaluation", 
         help="Title of the WER/CER plot. Default: 'TTS Evaluation'."
     )
+    parser.add_argument(
+        "--lang", 
+        required=True,
+        default="en",
+        choices=["en", "cs"],
+        type=str,
+        help="Language of the audio files."
+    )
 
     return parser.parse_args()
 
@@ -64,37 +71,51 @@ def clear_gpu_cache():
       torch.cuda.empty_cache()
     torch.cuda.empty_cache()
     gc.collect()
+    
+def print_verbose(text):
+    if ARGS.verbose:
+        print(text)
   
 def load_whisper():
     """Load the Whisper model."""
-    clear_gpu_cache()
+    # clear_gpu_cache()
 
     global WHISPER_MODEL
-    WHISPER_MODEL = whisper.load_model("large-v3", download_root=WHISPER_MODEL_DIR)
+    WHISPER_MODEL = whisper.load_model("large-v3", download_root=WHISPER_MODEL_DIR, device=DEVICE)
+    print_verbose(f"Loaded Whisper model on {DEVICE} device.")
   
 def transcribe_audio(audio_file):
     """Generate transcriptions for the given audio file."""
-    clear_gpu_cache()
+    # clear_gpu_cache()
     
-    return WHISPER_MODEL.transcribe(audio_file) #, language="cs")
+    return WHISPER_MODEL.transcribe(audio_file, language=args.lang)
   
 def process_input_files():
     """Process the input files."""
-    generated_audio_files = os.listdir(args.generated_audio_folder) # contains {name_of_file}.wav
-    
-    for file in tqdm(generated_audio_files):
-        transcription_ref = os.path.join(args.reference_transcriptions_folder, file.replace(".wav", ".txt"))
-        with open(transcription_ref, "r") as f:
-            transcription_ref = f.read().strip()
+    # example: "experiment_default_per_sentence"
+    experiment_names = [d for d in os.listdir(args.generated_audio_folder) if os.path.isdir(os.path.join(args.generated_audio_folder, d))]
+
+    for experiment_name in experiment_names:
+        WER_VALUES.clear()
+        CER_VALUES.clear()
+        
+        print_verbose(f"WER and CER values should be [] []: {WER_VALUES} {CER_VALUES}")
+        print_verbose(f"Processing experiment: {experiment_name}")
+        generated_audio_files = os.listdir(os.path.join(args.generated_audio_folder, experiment_name))  # list all files
+        generated_audio_files = [f for f in generated_audio_files if f.endswith(".wav")]                # filter only .wav files
+        for file in tqdm(generated_audio_files):
+            transcription_ref = os.path.join(args.reference_transcriptions_folder, file.replace(".wav", ".txt"))
+            with open(transcription_ref, "r") as f:
+                transcription_ref = f.read().strip()
             
-        transcription_gen = transcribe_audio(os.path.join(args.generated_audio_folder, file))
+            transcription_gen = transcribe_audio(os.path.join(args.generated_audio_folder, experiment_name, file))["text"]
+            
+            wer_and_cer(transcription_ref, transcription_gen)
         
-        wer_and_cer(transcription_ref, transcription_gen)
-        
-    print(f"Mean WER: {np.mean(WER_VALUES):.2f}%")
-    print(f"Mean CER: {np.mean(CER_VALUES):.2f}%")
-        
-    plot_and_save_results(WER_VALUES, CER_VALUES, args.plot_title)
+        print(f"Mean WER: {np.mean(WER_VALUES):.2f}%")
+        print(f"Mean CER: {np.mean(CER_VALUES):.2f}%")
+            
+        plot_and_save_results(WER_VALUES, CER_VALUES, args.plot_title)
 
 def wer_and_cer(ground_truth, hypothesis):
   transformation = jiwer.Compose([
@@ -163,12 +184,9 @@ def plot_and_save_results(wer_values, cer_values, title):
     plt.savefig(os.path.join(args.output_folder, "wer_cer_boxplot.png"))
     plt.show()
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Evaluate WER and CER for TTS transcriptions.")
-    args = parser.parse_args()
+    args = parse_args()
     
     load_whisper()
     
     process_input_files()
-

@@ -3,4 +3,3 @@ torchaudio
 jiwer
 soundfile
 matplotlib
-git+https://github.com/openai/whisper.git

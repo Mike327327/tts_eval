@@ -20,10 +20,10 @@ def parse_args():
       help="Path to the folder containing generated audio files."
   )
   parser.add_argument(
-      "--reference_audio_folder", 
+      "--reference_audio_file", 
       type=str, 
       required=True, 
-      help="Path to the folder containing reference audio files."
+      help="Path to the folder containing reference audio file."
   )
   parser.add_argument(
       "--verbose", 

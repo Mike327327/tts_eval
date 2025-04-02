@@ -8,6 +8,9 @@ conda activate tts_eval
 git clone https://github.com/Mike327327/tts_eval.git
 cd tts_eval
 pip install -r requirements.txt
+
+git+https://github.com/openai/whisper.git
+TODO: Speechbrain
 ```
 
 ## Usage
