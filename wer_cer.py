@@ -73,7 +73,7 @@ def clear_gpu_cache():
     gc.collect()
     
 def print_verbose(text):
-    if ARGS.verbose:
+    if args.verbose:
         print(text)
   
 def load_whisper():
@@ -161,7 +161,7 @@ def wer_and_cer(ground_truth, hypothesis):
 
 
 def plot_and_save_results(wer_values, cer_values, title):
-    if args.output_folder is None:
+    if args.output_folder is None or args.plot_title is None:
       return
     else:
       os.makedirs(args.output_folder, exist_ok=True)
