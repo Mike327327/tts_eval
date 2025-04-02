@@ -2,5 +2,5 @@ torch
 torchaudio
 jiwer
 soundfile
+matplotlib
 git+https://github.com/openai/whisper.git
-git+https://github.com/speechbrain/speechbrain.git

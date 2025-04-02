@@ -16,6 +16,14 @@ WHISPER_MODEL = None
 WHISPER_MODEL_DIR = "./pretrained_models/whisper"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
+# python wer_cer.py \
+#     --generated_audio_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+#     --reference_transcriptions_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/cz/to_generate" \
+#     --output_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+#     --verbose \
+#     --plot_title "Czech non-causal unseen male speaker"
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate WER and CER for generated audio using Whisper transcriptions.")
     
