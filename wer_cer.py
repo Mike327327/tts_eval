@@ -100,7 +100,7 @@ def process_input_files():
         CER_VALUES.clear()
         
         print_verbose(f"WER and CER values should be [] []: {WER_VALUES} {CER_VALUES}")
-        print_verbose(f"Processing experiment: {experiment_name}")
+        print(f"Processing experiment: {experiment_name}")
         generated_audio_files = os.listdir(os.path.join(args.generated_audio_folder, experiment_name))  # list all files
         generated_audio_files = [f for f in generated_audio_files if f.endswith(".wav")]                # filter only .wav files
         for file in tqdm(generated_audio_files):
@@ -115,7 +115,7 @@ def process_input_files():
         print(f"Mean WER: {np.mean(WER_VALUES):.2f}%")
         print(f"Mean CER: {np.mean(CER_VALUES):.2f}%")
             
-        plot_and_save_results(WER_VALUES, CER_VALUES, args.plot_title)
+        plot_and_save_results(WER_VALUES, CER_VALUES, args.plot_title, experiment_name)
 
 def wer_and_cer(ground_truth, hypothesis):
   transformation = jiwer.Compose([
@@ -160,7 +160,7 @@ def wer_and_cer(ground_truth, hypothesis):
   CER_VALUES.append(cer(ground_truth, hypothesis, truth_transform=jiwer.cer_default, hypothesis_transform=jiwer.cer_default)*100) # *100 because we want percentage
 
 
-def plot_and_save_results(wer_values, cer_values, title):
+def plot_and_save_results(wer_values, cer_values, title, experiment_name):
     if args.output_folder is None or args.plot_title is None:
       return
     else:
@@ -181,7 +181,7 @@ def plot_and_save_results(wer_values, cer_values, title):
     axes[1].set_ylabel("CER (%)")
     axes[1].set_xlabel(f"Mean CER: {np.mean(cer_values):.2f}%")
 
-    plt.savefig(os.path.join(args.output_folder, "wer_cer_boxplot.png"))
+    plt.savefig(os.path.join(args.output_folder, f"wer_cer_boxplot_{experiment_name}.png"))
     plt.show()
 
 if __name__ == "__main__":

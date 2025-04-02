@@ -33,6 +33,10 @@ def parse_args():
 
   return parser.parse_args()
 
+def print_verbose(text):
+  if args.verbose:
+    print(text)
+
 def load_classifier():
   """Load the Speechbrain model."""
   global CLASSIFIER
@@ -64,19 +68,26 @@ def compute_cosine_distance(ref_wav_file, gen_wav_file):
 
 def process_input_files():
   """Process the input files."""
+  experiment_names = [d for d in os.listdir(args.generated_audio_folder) if os.path.isdir(os.path.join(args.generated_audio_folder, d))]
   gen_audio_files = os.listdir(args.generated_audio_folder)
 
-  for gen_file in tqdm(gen_audio_files):
-    ref_file = gen_file.replace("_gen.wav", ".wav")
-    cos_distance = compute_cosine_distance(os.path.join(args.reference_audio_folder, ref_file), os.path.join(args.generated_audio_folder, gen_file))
-    COSINE_DISTANCE_VALUES.append(cos_distance)
-    if args.verbose:
-      print(f"Cosine distance: {cos_distance:.2f}, file: {gen_file}")
+  for experiment_name in experiment_names:
+    print(f"Processing experiment: {experiment_name}")
+    
+    COSINE_DISTANCE_VALUES.clear()
+    print_verbose(f"Cosine distance values should be []: {COSINE_DISTANCE_VALUES}")
+    
+    generated_audio_files = os.listdir(os.path.join(args.generated_audio_folder, experiment_name))  # list all files
+    generated_audio_files = [f for f in generated_audio_files if f.endswith(".wav")]                # filter only .wav files
+    
+    for gen_file in tqdm(gen_audio_files):
+      cos_distance = compute_cosine_distance(args.reference_audio_file, os.path.join(args.generated_audio_folder, gen_file))
+      COSINE_DISTANCE_VALUES.append(cos_distance)
+      print_verbose(f"Cosine distance: {cos_distance:.2f}, file: {gen_file}")
 
-  print(f"Mean cosine distance: {np.mean(COSINE_DISTANCE_VALUES):.2f}")
+    print(f"Mean cosine distance: {np.mean(COSINE_DISTANCE_VALUES):.2f} for experiment: {experiment_name}")
     
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Evaluate speaker similarity TTS transcriptions.")
   args = parser.parse_args()
   
   load_classifier()
