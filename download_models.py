@@ -1,5 +1,5 @@
 import whisper
-from speechbrain.inference import EncoderClassifier  # ✅ Correct
+from speechbrain.inference import EncoderClassifier
 import os
 
 # Directory to save the models locally
