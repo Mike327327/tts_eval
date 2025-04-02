@@ -43,6 +43,7 @@ def parse_args():
     )
     parser.add_argument(
         "--plot_title", 
+        type=str,
         default="TTS Evaluation", 
         help="Title of the WER/CER plot. Default: 'TTS Evaluation'."
     )
@@ -71,10 +72,10 @@ def transcribe_audio(audio_file):
   
 def process_input_files():
     """Process the input files."""
-    generated_audio_files = os.listdir(args.generated_audio_folder) # contains {name_of_file}_gen.wav
+    generated_audio_files = os.listdir(args.generated_audio_folder) # contains {name_of_file}.wav
     
     for file in tqdm(generated_audio_files):
-        transcription_ref = os.path.join(args.reference_transcriptions_folder, file.replace("_gen.wav", ".txt"))
+        transcription_ref = os.path.join(args.reference_transcriptions_folder, file.replace(".wav", ".txt"))
         with open(transcription_ref, "r") as f:
             transcription_ref = f.read().strip()
             
