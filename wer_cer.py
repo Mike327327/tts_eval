@@ -19,9 +19,11 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # python wer_cer.py \
 # --generated_audio_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
 # --reference_transcriptions_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/cz/to_generate" \
-# --output_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
-# --verbose \
-# --plot_title "Czech non-causal unseen male speaker"
+# --output_folder_plots "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+# --plot_title "Czech non-causal unseen male speaker" \
+# --output_folder_results "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal" \
+# --lang "cs" \
+# --verbose
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate WER and CER for generated audio using Whisper transcriptions.")
@@ -39,14 +41,14 @@ def parse_args():
         help="Path to the folder containing reference transcriptions."
     )
     parser.add_argument(
-        "--output_folder", 
+        "--output_folder_plots",
         type=str, 
-        help="Folder to save WER/CER plots and results. If not provided, the plots are not saved."
+        help="Folder to save WER/CER plots. If not provided, nothing is saved."
     )
     parser.add_argument(
-        "--verbose", 
-        action="store_true", 
-        help="If set, print additional information during evaluation."
+        "--output_folder_results",
+        type=str, 
+        help="Folder to save text file with results. If not provided, nothing is saved."
     )
     parser.add_argument(
         "--plot_title", 
@@ -61,6 +63,11 @@ def parse_args():
         choices=["en", "cs"],
         type=str,
         help="Language of the audio files."
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true", 
+        help="If set, print additional information during evaluation."
     )
 
     return parser.parse_args()
@@ -79,7 +86,7 @@ def print_verbose(text):
 def load_whisper():
     """Load the Whisper model."""
     # clear_gpu_cache()
-
+    print("Loading Whisper model...")
     global WHISPER_MODEL
     WHISPER_MODEL = whisper.load_model("large-v3", download_root=WHISPER_MODEL_DIR, device=DEVICE)
     print_verbose(f"Loaded Whisper model on {DEVICE} device.")
@@ -95,6 +102,12 @@ def process_input_files():
     # example: "experiment_default_per_sentence"
     experiment_names = [d for d in os.listdir(args.generated_audio_folder) if os.path.isdir(os.path.join(args.generated_audio_folder, d))]
 
+    if args.output_folder_results is not None:
+        output_file = os.path.join(args.output_folder_results, "wer_cer_results.txt")
+        
+        with open(output_file, "a") as f:
+            f.write(f'\nSpeaker: {(args.generated_audio_folder).split("/")[-1]}\n')  # example: babis
+    
     for experiment_name in experiment_names:
         WER_VALUES.clear()
         CER_VALUES.clear()
@@ -114,9 +127,13 @@ def process_input_files():
         
         print(f"Mean WER: {np.mean(WER_VALUES):.2f}%")
         print(f"Mean CER: {np.mean(CER_VALUES):.2f}%")
+        
+        if args.output_folder_results is not None:
+            with open(output_file, "a") as f:
+                f.write(f'{experiment_name} {np.mean(WER_VALUES):.2f} {np.mean(CER_VALUES):.2f}\n')
             
         plot_and_save_results(WER_VALUES, CER_VALUES, args.plot_title, experiment_name)
-
+    
 def wer_and_cer(ground_truth, hypothesis):
   transformation = jiwer.Compose([
             jiwer.ToLowerCase(),
@@ -161,10 +178,10 @@ def wer_and_cer(ground_truth, hypothesis):
 
 
 def plot_and_save_results(wer_values, cer_values, title, experiment_name):
-    if args.output_folder is None or args.plot_title is None:
+    if args.output_folder_plots is None or args.plot_title is None:
       return
     else:
-      os.makedirs(args.output_folder, exist_ok=True)
+      os.makedirs(args.output_folder_plots, exist_ok=True)
       
     """Plot and save boxplots of WER and CER values."""
     _, axes = plt.subplots(1, 2, figsize=(12, 5))
@@ -181,7 +198,7 @@ def plot_and_save_results(wer_values, cer_values, title, experiment_name):
     axes[1].set_ylabel("CER (%)")
     axes[1].set_xlabel(f"Mean CER: {np.mean(cer_values):.2f}%")
 
-    plt.savefig(os.path.join(args.output_folder, f"wer_cer_boxplot_{experiment_name}.png"))
+    plt.savefig(os.path.join(args.output_folder_plots, f"wer_cer_boxplot_{experiment_name}.png"))
     plt.show()
 
 if __name__ == "__main__":

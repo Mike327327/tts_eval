@@ -9,14 +9,15 @@ git clone https://github.com/Mike327327/tts_eval.git
 cd tts_eval
 pip install -r requirements.txt
 
-### Whisper ASR
+### Whisper (ASR)
 git+https://github.com/openai/whisper.git
 
-### Speechbrain embedding extractor
-git clone https://github.com/speechbrain/speechbrain.git
-cd /content/speechbrain
-pip install -r requirements.txt
-pip install --editable .
+### Speechbrain (embedding extractor)
+git+https://github.com/speechbrain/speechbrain.git
+
+# git clone https://github.com/speechbrain/speechbrain.git
+# cd /content/speechbrain
+# pip install -r requirements.txt
 ```
 
 ## Usage
@@ -26,6 +27,7 @@ pip install --editable .
 python speaker_similarity.py \
 --generated_audio_folder "/path/to/generated/audio/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
 --reference_audio_file "/path/to/ref/texts/F5-TTS/audio_playground/cz/ref_seen_speaker.wav" \
+--output_folder_results "/path/for/outputting/results/txtfile/F5-TTS/audio_playground/experiments/cz/non_causal" \
 --verbose \
 
 # To compute WER, run:
@@ -33,7 +35,9 @@ python speaker_similarity.py \
 python wer_cer.py \
 --generated_audio_folder "/path/to/generated/audio/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
 --reference_transcriptions_folder "/path/to/ref/texts/F5-TTS/audio_playground/cz/to_generate" \
---output_folder "path/for/outputting/plot/images/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+--output_folder_plots "path/for/outputting/plot/images/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+--plot_title "Czech non-causal unseen male speaker" \
+--output_folder_results "/path/for/outputting/results/txtfile/F5-TTS/audio_playground/experiments/cz/non_causal" \
+--lang "cs" \
 --verbose \
---plot_title "Czech non-causal unseen male speaker"
 ```

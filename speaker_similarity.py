@@ -11,8 +11,9 @@ SPEECHBRAIN_MODEL_DIR = "./pretrained_models/speechbrain-spkrec"
 COSINE_DISTANCE_VALUES = []
 
 # python speaker_similarity.py \
-# --generated_audio_folder "/path/to/generated/audio/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
-# --reference_audio_file "/path/to/ref/texts/F5-TTS/audio_playground/cz/ref_seen_speaker.wav" \
+# --generated_audio_folder "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal/babis" \
+# --reference_audio_file "/mnt/matylda4/xluner01/F5-TTS/audio_playground/cz/reference/ref_audio_cz_babis.wav" \
+# --output_folder_results "/mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/non_causal" \
 # --verbose
 
 def parse_args():
@@ -31,6 +32,11 @@ def parse_args():
       help="Path to the folder containing reference audio file."
   )
   parser.add_argument(
+      "--output_folder_results",
+      type=str, 
+      help="Folder to save text file with results. If not provided, nothing is saved."
+  )
+  parser.add_argument(
       "--verbose", 
       action="store_true", 
       help="If set, print additional information during evaluation."
@@ -44,6 +50,7 @@ def print_verbose(text):
 
 def load_classifier():
   """Load the Speechbrain model."""
+  print_verbose("Loading Speechbrain model for embedding extraction...")
   global CLASSIFIER
   CLASSIFIER = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb", savedir=SPEECHBRAIN_MODEL_DIR)
   
@@ -75,6 +82,12 @@ def process_input_files():
   """Process the input files."""
   experiment_names = [d for d in os.listdir(args.generated_audio_folder) if os.path.isdir(os.path.join(args.generated_audio_folder, d))]
 
+  if args.output_folder_results is not None:
+    output_file = os.path.join(args.output_folder_results, "speaker_similarity_results.txt")
+    
+    with open(output_file, "a") as f:
+        f.write(f'\nSpeaker: {(args.generated_audio_folder).split("/")[-1]}\n')  # example: babis
+            
   for experiment_name in experiment_names:
     print(f"Processing experiment: {experiment_name}")
     
@@ -91,6 +104,10 @@ def process_input_files():
 
     print(f"Mean cosine distance: {np.mean(COSINE_DISTANCE_VALUES):.2f} for experiment: {experiment_name}")
     
+    if args.output_folder is not None:
+      with open(output_file, "a") as f:
+        f.write(f'{experiment_name} {np.mean(COSINE_DISTANCE_VALUES):.2f}\n')
+      
 if __name__ == "__main__":
   args = parse_args()
   
