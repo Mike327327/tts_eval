@@ -9,10 +9,12 @@ def calculate_stats(dataset_path):
     total_duration = 0.0
     total_chars = 0
     
+    print(f"Calculating statistics for dataset: {dataset_path}")
+    
     for root, _, files in os.walk(dataset_path):
         trans_files = [f for f in files if f.endswith(".trans.tsv")]
         
-        for trans_file in tqdm(trans_files):
+        for trans_file in trans_files:
             trans_path = os.path.join(root, trans_file)
             
             with open(trans_path, "r", encoding="utf-8") as f:
