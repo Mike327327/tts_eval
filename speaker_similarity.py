@@ -104,7 +104,7 @@ def process_input_files():
 
     print(f"Mean cosine distance: {np.mean(COSINE_DISTANCE_VALUES):.2f} for experiment: {experiment_name}")
     
-    if args.output_folder is not None:
+    if args.output_folder_results is not None:
       with open(output_file, "a") as f:
         f.write(f'{experiment_name} {np.mean(COSINE_DISTANCE_VALUES):.2f}\n')
       
