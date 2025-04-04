@@ -104,20 +104,38 @@ def main():
         total_duration += info[1]
     print(f"Selected {len(selected_files)} files with total duration of {total_duration:.2f} minutes (target was {args.target_minutes} minutes).")
     
-    # 6. Export the transcription from each selected .prt file to an individual .txt file in the output folder.
+    # # 6. Export the transcription from each selected .prt file to an individual .txt file in the output folder.
+    # for name, info in selected_files.items():
+    #     # The base path for the .prt file (without extension)
+    #     prt_base_path = Path(info[0])
+    #     prt_path = prt_base_path.with_suffix(".normalized.txt")
+    #     try:
+    #         with open(prt_path, "r", encoding="utf-8") as f:
+    #             transcription = f.read().strip()
+    #         # Save the transcription in a txt file named after the file stem
+    #         output_txt_path = output_folder / f'{name.split(".")[0]}.txt'
+    #         with open(output_txt_path, "w", encoding="utf-8") as out_f:
+    #             out_f.write(transcription)
+    #     except Exception as e:
+    #         print(f"Error processing {prt_path}: {e}")
+            
+    import shutil  # Make sure this is at the top with other imports
+
+    # 6.1 Copy corresponding .wav files into the output folder
     for name, info in selected_files.items():
-        # The base path for the .prt file (without extension)
         prt_base_path = Path(info[0])
-        prt_path = prt_base_path.with_suffix(".normalized.txt")
+        wav_path = prt_base_path.with_suffix(".wav")
+        output_wav_path = output_folder / f'{name.split(".")[0]}.wav'
+        print(f"Copying {wav_path} to {output_wav_path}")
+
         try:
-            with open(prt_path, "r", encoding="utf-8") as f:
-                transcription = f.read().strip()
-            # Save the transcription in a txt file named after the file stem
-            output_txt_path = output_folder / f'{name.split(".")[0]}.txt'
-            with open(output_txt_path, "w", encoding="utf-8") as out_f:
-                out_f.write(transcription)
+            if wav_path.exists():
+                shutil.copy2(wav_path, output_wav_path)
+            else:
+                print(f"Warning: WAV file not found for {name}")
         except Exception as e:
-            print(f"Error processing {prt_path}: {e}")
+            print(f"Error copying WAV file {wav_path}: {e}")
+
     
     # 7. Print final statistics
     print("\n=== Statistics ===")
