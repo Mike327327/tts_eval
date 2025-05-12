@@ -2,7 +2,7 @@ import os
 from tqdm import tqdm
 
 # Folder path with .prt files
-folder_path = "/mnt/matylda4/xluner01/ParCzech/parczech-3.0-asr-context.test"
+folder_path = "/mnt/matylda5/xfolty17/data/parczech-3.0/2018"
 
 # Collect all .prt files
 prt_files = []

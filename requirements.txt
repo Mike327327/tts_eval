@@ -5,3 +5,4 @@ soundfile
 matplotlib
 librosa
 tqdm
+pyworld
