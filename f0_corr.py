@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 # Check and read base path from command-line
 if len(sys.argv) < 3:
-    print("Usage: python f0.py <base_gen_folder_path> <base_gt_folder_path>")
+    print("Usage: python f0_corr.py <base_gen_folder_path> <base_gt_folder_path>")
     sys.exit(1)
 
 base_folder_gen = sys.argv[1]
@@ -51,19 +51,29 @@ for speaker in os.listdir(base_folder_gt):
         continue
 
     data_paths_gt[speaker] = {}
-    for experiment in os.listdir(speaker_path):
-        experiment_path = os.path.join(speaker_path, experiment)
-        if not os.path.isdir(experiment_path):
-            continue
-
+    # If there is only one folder ("gt_audio"), use it directly
+    subfolders = [f for f in os.listdir(speaker_path) if os.path.isdir(os.path.join(speaker_path, f))]
+    if len(subfolders) == 1:
+        exp = subfolders[0]
+        experiment_path = os.path.join(speaker_path, exp)
         wav_paths = [
             os.path.join(experiment_path, f)
             for f in os.listdir(experiment_path)
             if f.endswith(".wav")
         ]
-
         if wav_paths:
-            data_paths_gt[speaker][experiment] = wav_paths
+            data_paths_gt[speaker][exp] = wav_paths
+    else:
+        # fallback to normal nested folders if multiple
+        for experiment in subfolders:
+            experiment_path = os.path.join(speaker_path, experiment)
+            wav_paths = [
+                os.path.join(experiment_path, f)
+                for f in os.listdir(experiment_path)
+                if f.endswith(".wav")
+            ]
+            if wav_paths:
+                data_paths_gt[speaker][experiment] = wav_paths
 
 ########################################################################################
 def extract_f0_pyworld(wav_path):
@@ -128,59 +138,62 @@ def evaluate_f0_consistency(gt_wav, gen_wav, plot_warping_path=False):
     f0_gt_filtered, f0_gen_filtered = filter_unvoiced(f0_gt_aligned, f0_gen_aligned)
     
     corr = compute_f0_correlation(f0_gt_filtered, f0_gen_filtered)
-    print(f"F0 Pearson correlation (voiced frames only): {corr:.2f}")
+    # print(f"F0 Pearson correlation (voiced frames only): {corr:.2f}")
 
     return corr
 ########################################################################################
 output_file = "f0_stats.txt"
 
 with open(output_file, "w") as outf:
-    # iterate over speakers present in both generated and GT sets
-    for speaker in sorted(set(data_paths_gen) & set(data_paths_gt)):
+    # Iterate over speakers that exist in generated data
+    for speaker in sorted(data_paths_gen):
+        if speaker not in data_paths_gt:
+            print(f"Skipping speaker {speaker}: no GT data found.")
+            continue
+
         outf.write(f"{speaker}\n")
         print(f"Analyzing speaker: {speaker}")
 
+        # Build a flat map of all GT wavs for this speaker
+        # (no matter what sub-folder they live in)
+        gt_map = {}
+        for subdict in data_paths_gt[speaker].values():
+            for p in subdict:
+                gt_map[os.path.basename(p)] = p
+
+        # Get all experiments *from the generated side*
         exps_gen = data_paths_gen[speaker]
-        exps_gt  = data_paths_gt[speaker]
+        max_exp_len = max(len(exp) for exp in exps_gen)  # safe: non-empty
 
-        # compute max experiment name width for nice alignment
-        all_exps = sorted(set(exps_gen) & set(exps_gt))
-        max_exp_len = max(len(exp) for exp in all_exps)
-
-        for exp in all_exps:
-            gen_wavs = sorted(exps_gen[exp])
-            gt_wavs  = sorted(exps_gt[exp])
-
-            # build a map from basename -> gt path for quick lookup
-            gt_map = {os.path.basename(p): p for p in gt_wavs}
-
+        # For each gen experiment, match its files against the GT map
+        for exp, gen_wavs in sorted(exps_gen.items()):
             corrs = []
-            for gen_path in tqdm(gen_wavs):
+            for gen_path in tqdm(gen_wavs, desc=f"  {exp:<{max_exp_len}}"):
                 name = os.path.basename(gen_path)
                 if name not in gt_map:
                     print(f"  [!] Missing GT for {speaker}/{exp}/{name}, skipping.")
                     continue
 
                 gt_path = gt_map[name]
+                # print(f"  GT: {gt_path}")
+                # print(f"  GEN: {gen_path}")
                 corr = evaluate_f0_consistency(gt_path, gen_path, plot_warping_path=False)
                 corrs.append(corr)
 
-            if not corrs:
+            # Format the output line
+            if corrs:
+                mean_corr = float(np.mean(corrs))
+                corr_strs = ", ".join(f"{c:.2f}" for c in corrs)
+                line = (
+                    f"  {exp:<{max_exp_len}}: "
+                    f"mean = {mean_corr:.2f} "
+                    f"({corr_strs})\n"
+                )
+            else:
                 line = f"  {exp:<{max_exp_len}}: no matching files found\n"
-                outf.write(line)
-                print(line, end="")
-                continue
 
-            mean_corr = float(np.mean(corrs))
-            # format individual correlations to two decimal places
-            corr_strs = ", ".join(f"{c:.2f}" for c in corrs)
-
-            line = (
-                f"  {exp:<{max_exp_len}}: "
-                f"mean = {mean_corr:.2f} "
-                f"({corr_strs})\n"
-            )
             outf.write(line)
             print(line, end="")
 
 print(f"\nResults written to {output_file}")
+

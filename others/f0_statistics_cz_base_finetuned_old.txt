@@ -1,0 +1,180 @@
+Analyzing speaker: babis
+  Experiment: experiment_default_per_sentence
+babis, experiment_default_per_sentence: mean = 114.18, variance = 113.48
+  Experiment: experiment_per_chunk_size_1
+babis, experiment_per_chunk_size_1: mean = 109.20, variance = 91.77
+  Experiment: experiment_per_chunk_size_3
+babis, experiment_per_chunk_size_3: mean = 114.28, variance = 100.18
+  Experiment: experiment_per_chunk_size_1_gen_cond
+babis, experiment_per_chunk_size_1_gen_cond: mean = 113.43, variance = 92.86
+  Experiment: experiment_per_chunk_size_3_gen_cond
+babis, experiment_per_chunk_size_3_gen_cond: mean = 115.73, variance = 103.45
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_100_ms
+babis, experiment_per_chunk_size_1_gen_cond_with_silence_100_ms: mean = 111.85, variance = 101.37
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_100_ms
+babis, experiment_per_chunk_size_3_gen_cond_with_silence_100_ms: mean = 115.54, variance = 110.19
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_300_ms
+babis, experiment_per_chunk_size_1_gen_cond_with_silence_300_ms: mean = 109.14, variance = 101.63
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_300_ms
+babis, experiment_per_chunk_size_3_gen_cond_with_silence_300_ms: mean = 116.99, variance = 108.20
+  Experiment: experiment_dtw
+babis, experiment_dtw: mean = 111.94, variance = 120.84
+  Experiment: experiment_dtw_whisper
+babis, experiment_dtw_whisper: mean = 114.10, variance = 133.99
+  Experiment: experiment_per_chunk_size_1_fix_duration
+babis, experiment_per_chunk_size_1_fix_duration: mean = 120.13, variance = 120.01
+  Experiment: experiment_per_chunk_size_3_fix_duration
+babis, experiment_per_chunk_size_3_fix_duration: mean = 117.82, variance = 124.40
+  Experiment: experiment_per_chunk_size_1_fix_duration_silence_removed
+babis, experiment_per_chunk_size_1_fix_duration_silence_removed: mean = 120.51, variance = 114.89
+  Experiment: experiment_per_chunk_size_3_fix_duration_silence_removed
+babis, experiment_per_chunk_size_3_fix_duration_silence_removed: mean = 118.64, variance = 109.78
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad
+babis, experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad: mean = 121.88, variance = 135.65
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad
+babis, experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad: mean = 121.06, variance = 118.41
+  Experiment: experiment_per_dynamic_sized_chunk_min_chars_15
+babis, experiment_per_dynamic_sized_chunk_min_chars_15: mean = 112.26, variance = 87.72
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed
+babis, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed: mean = 110.17, variance = 103.00
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper
+babis, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper: mean = 111.76, variance = 105.29
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed
+babis, experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed: mean = 111.00, variance = 113.80
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc
+babis, experiment_per_chunk_size_1_fix_duration_gen_cond_acc: mean = 111.72, variance = 112.97
+Analyzing speaker: pavel
+  Experiment: experiment_default_per_sentence
+pavel, experiment_default_per_sentence: mean = 84.54, variance = 63.99
+  Experiment: experiment_per_chunk_size_1
+pavel, experiment_per_chunk_size_1: mean = 83.76, variance = 73.90
+  Experiment: experiment_per_chunk_size_3
+pavel, experiment_per_chunk_size_3: mean = 84.50, variance = 59.55
+  Experiment: experiment_per_chunk_size_1_gen_cond
+pavel, experiment_per_chunk_size_1_gen_cond: mean = 85.23, variance = 77.76
+  Experiment: experiment_per_chunk_size_3_gen_cond
+pavel, experiment_per_chunk_size_3_gen_cond: mean = 82.63, variance = 69.75
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_100_ms
+pavel, experiment_per_chunk_size_1_gen_cond_with_silence_100_ms: mean = 83.91, variance = 74.69
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_100_ms
+pavel, experiment_per_chunk_size_3_gen_cond_with_silence_100_ms: mean = 83.13, variance = 63.48
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_300_ms
+pavel, experiment_per_chunk_size_1_gen_cond_with_silence_300_ms: mean = 84.62, variance = 68.28
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_300_ms
+pavel, experiment_per_chunk_size_3_gen_cond_with_silence_300_ms: mean = 83.26, variance = 64.19
+  Experiment: experiment_dtw
+pavel, experiment_dtw: mean = 83.54, variance = 63.70
+  Experiment: experiment_dtw_whisper
+pavel, experiment_dtw_whisper: mean = 83.59, variance = 70.88
+  Experiment: experiment_per_chunk_size_1_fix_duration
+pavel, experiment_per_chunk_size_1_fix_duration: mean = 85.36, variance = 68.31
+  Experiment: experiment_per_chunk_size_3_fix_duration
+pavel, experiment_per_chunk_size_3_fix_duration: mean = 85.28, variance = 61.34
+  Experiment: experiment_per_chunk_size_1_fix_duration_silence_removed
+pavel, experiment_per_chunk_size_1_fix_duration_silence_removed: mean = 85.49, variance = 68.03
+  Experiment: experiment_per_chunk_size_3_fix_duration_silence_removed
+pavel, experiment_per_chunk_size_3_fix_duration_silence_removed: mean = 85.46, variance = 66.59
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad
+pavel, experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad: mean = 84.45, variance = 67.89
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad
+pavel, experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad: mean = 84.39, variance = 64.97
+  Experiment: experiment_per_dynamic_sized_chunk_min_chars_15
+pavel, experiment_per_dynamic_sized_chunk_min_chars_15: mean = 83.36, variance = 59.49
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed
+pavel, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed: mean = 84.73, variance = 77.83
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper
+pavel, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper: mean = 85.72, variance = 80.30
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed
+pavel, experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed: mean = 87.45, variance = 74.92
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc
+pavel, experiment_per_chunk_size_1_fix_duration_gen_cond_acc: mean = 87.30, variance = 70.45
+Analyzing speaker: schillerova
+  Experiment: experiment_default_per_sentence
+schillerova, experiment_default_per_sentence: mean = 214.57, variance = 285.35
+  Experiment: experiment_per_chunk_size_1
+schillerova, experiment_per_chunk_size_1: mean = 180.16, variance = 262.81
+  Experiment: experiment_per_chunk_size_3
+schillerova, experiment_per_chunk_size_3: mean = 201.88, variance = 278.46
+  Experiment: experiment_per_chunk_size_1_gen_cond
+schillerova, experiment_per_chunk_size_1_gen_cond: mean = 171.84, variance = 213.60
+  Experiment: experiment_per_chunk_size_3_gen_cond
+schillerova, experiment_per_chunk_size_3_gen_cond: mean = 175.32, variance = 199.31
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_100_ms
+schillerova, experiment_per_chunk_size_1_gen_cond_with_silence_100_ms: mean = 169.63, variance = 192.22
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_100_ms
+schillerova, experiment_per_chunk_size_3_gen_cond_with_silence_100_ms: mean = 177.54, variance = 200.58
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_300_ms
+schillerova, experiment_per_chunk_size_1_gen_cond_with_silence_300_ms: mean = 169.41, variance = 167.95
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_300_ms
+schillerova, experiment_per_chunk_size_3_gen_cond_with_silence_300_ms: mean = 172.69, variance = 155.32
+  Experiment: experiment_dtw
+schillerova, experiment_dtw: mean = 180.25, variance = 289.82
+  Experiment: experiment_dtw_whisper
+schillerova, experiment_dtw_whisper: mean = 189.25, variance = 259.47
+  Experiment: experiment_per_chunk_size_1_fix_duration
+schillerova, experiment_per_chunk_size_1_fix_duration: mean = 201.98, variance = 321.64
+  Experiment: experiment_per_chunk_size_3_fix_duration
+schillerova, experiment_per_chunk_size_3_fix_duration: mean = 215.78, variance = 305.30
+  Experiment: experiment_per_chunk_size_1_fix_duration_silence_removed
+schillerova, experiment_per_chunk_size_1_fix_duration_silence_removed: mean = 204.11, variance = 308.21
+  Experiment: experiment_per_chunk_size_3_fix_duration_silence_removed
+schillerova, experiment_per_chunk_size_3_fix_duration_silence_removed: mean = 217.20, variance = 327.79
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad
+schillerova, experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad: mean = 177.13, variance = 275.64
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad
+schillerova, experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad: mean = 171.70, variance = 236.12
+  Experiment: experiment_per_dynamic_sized_chunk_min_chars_15
+schillerova, experiment_per_dynamic_sized_chunk_min_chars_15: mean = 190.97, variance = 309.83
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed
+schillerova, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed: mean = 167.82, variance = 239.54
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper
+schillerova, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper: mean = 167.79, variance = 236.86
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed
+schillerova, experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed: mean = 163.26, variance = 241.58
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc
+schillerova, experiment_per_chunk_size_1_fix_duration_gen_cond_acc: mean = 164.64, variance = 200.10
+Analyzing speaker: nerudova
+  Experiment: experiment_default_per_sentence
+nerudova, experiment_default_per_sentence: mean = 167.04, variance = 197.41
+  Experiment: experiment_per_chunk_size_1
+nerudova, experiment_per_chunk_size_1: mean = 145.55, variance = 190.69
+  Experiment: experiment_per_chunk_size_3
+nerudova, experiment_per_chunk_size_3: mean = 164.25, variance = 178.59
+  Experiment: experiment_per_chunk_size_1_gen_cond
+nerudova, experiment_per_chunk_size_1_gen_cond: mean = 140.71, variance = 202.15
+  Experiment: experiment_per_chunk_size_3_gen_cond
+nerudova, experiment_per_chunk_size_3_gen_cond: mean = 149.72, variance = 174.47
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_100_ms
+nerudova, experiment_per_chunk_size_1_gen_cond_with_silence_100_ms: mean = 143.14, variance = 192.49
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_100_ms
+nerudova, experiment_per_chunk_size_3_gen_cond_with_silence_100_ms: mean = 151.53, variance = 180.90
+  Experiment: experiment_per_chunk_size_1_gen_cond_with_silence_300_ms
+nerudova, experiment_per_chunk_size_1_gen_cond_with_silence_300_ms: mean = 139.96, variance = 148.83
+  Experiment: experiment_per_chunk_size_3_gen_cond_with_silence_300_ms
+nerudova, experiment_per_chunk_size_3_gen_cond_with_silence_300_ms: mean = 150.02, variance = 189.90
+  Experiment: experiment_dtw
+nerudova, experiment_dtw: mean = 153.79, variance = 189.16
+  Experiment: experiment_dtw_whisper
+nerudova, experiment_dtw_whisper: mean = 160.60, variance = 230.65
+  Experiment: experiment_per_chunk_size_1_fix_duration
+nerudova, experiment_per_chunk_size_1_fix_duration: mean = 159.29, variance = 167.19
+  Experiment: experiment_per_chunk_size_3_fix_duration
+nerudova, experiment_per_chunk_size_3_fix_duration: mean = 166.37, variance = 163.91
+  Experiment: experiment_per_chunk_size_1_fix_duration_silence_removed
+nerudova, experiment_per_chunk_size_1_fix_duration_silence_removed: mean = 166.65, variance = 173.60
+  Experiment: experiment_per_chunk_size_3_fix_duration_silence_removed
+nerudova, experiment_per_chunk_size_3_fix_duration_silence_removed: mean = 169.10, variance = 173.89
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad
+nerudova, experiment_per_chunk_size_1_fix_duration_processing_id_1_gen_cond_vad: mean = 162.10, variance = 190.19
+  Experiment: experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad
+nerudova, experiment_per_chunk_size_1_fix_duration_processing_id_2_gen_cond_vad: mean = 163.13, variance = 183.50
+  Experiment: experiment_per_dynamic_sized_chunk_min_chars_15
+nerudova, experiment_per_dynamic_sized_chunk_min_chars_15: mean = 159.98, variance = 196.14
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed
+nerudova, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper_silence_removed: mean = 159.90, variance = 242.37
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_whisper
+nerudova, experiment_per_chunk_size_1_fix_duration_gen_cond_whisper: mean = 160.09, variance = 247.86
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed
+nerudova, experiment_per_chunk_size_1_fix_duration_gen_cond_acc_silence_removed: mean = 157.86, variance = 198.48
+  Experiment: experiment_per_chunk_size_1_fix_duration_gen_cond_acc
+nerudova, experiment_per_chunk_size_1_fix_duration_gen_cond_acc: mean = 157.00, variance = 197.46

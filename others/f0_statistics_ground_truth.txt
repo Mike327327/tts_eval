@@ -1,0 +1,10 @@
+Ran as:  python f0.py /mnt/matylda4/xluner01/F5-TTS/audio_playground/experiments/cz/others/f0_ground_truth
+
+Analyzing speaker: babis
+  ground_truth: mean = 129.58, variance = 163.58
+Analyzing speaker: schillerova
+  ground_truth: mean = 217.84, variance = 289.87
+Analyzing speaker: nerudova
+  ground_truth: mean = 185.80, variance = 260.69
+Analyzing speaker: pavel
+  ground_truth: mean = 94.82, variance = 114.28

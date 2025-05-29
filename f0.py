@@ -115,3 +115,4 @@ with open(output_file, "w") as f:
             line = f"  {padded_exp}: mean = {mean:.2f}, variance = {var:.2f}"
             f.write(line + "\n")
             print(line)
+
